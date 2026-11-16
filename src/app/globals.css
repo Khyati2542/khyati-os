@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+/*
+ * KHYATI.OS v2 design tokens.
+ * Tailwind v4 reads tokens from @theme (there is no tailwind.config.ts).
+ * Every --color-* below becomes bg-*, text-*, border-* … utilities,
+ * so components never hard-code hex values.
+ */
+@theme {
+  --color-ink: #0a0a0a;
+  --color-paper: #f2f0ea;
+  --color-muted: #a8a8b0;
+  --color-lime: #d4ff3a;
+  --color-violet: #8b5cff;
+  --color-orange: #ff5c2b;
+  --color-surface: #111113;
+  --color-line: #2a2a2e;
+  --color-line-strong: #3a3a40;
+  --color-dot: #26262a;
+
+  --shadow-hard: 6px 6px 0 var(--color-paper);
+  --shadow-hard-md: 8px 8px 0 var(--color-paper);
+  --shadow-hard-lg: 12px 12px 0 var(--color-lime);
+  --shadow-hard-ink: 6px 6px 0 var(--color-ink);
+
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-spin-slow: spin-slow 16s linear infinite;
+  --animate-blink: blink 1s steps(1) infinite;
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-flow: flow 0.8s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  @keyframes float {
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes flow {
+    to {
+      background-position: 16px 0;
+    }
+  }
+}
+
+/* Font variables are injected by next/font in layout.tsx */
+@theme inline {
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/*
+ * Outlined text (VERMA, SHIPPED, ROUTE …). The stroke takes the element's
+ * text color, so `text-outline text-orange` gives an orange outline.
+ * (-webkit-text-fill-color is used instead of color: transparent, otherwise
+ * currentColor would also be transparent and the stroke would vanish.)
+ */
+@utility text-outline {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke-width: max(2px, 0.012em);
+  -webkit-text-stroke-color: currentColor;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    overflow-x: clip;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-ink);
+    background-image: radial-gradient(var(--color-dot) 1px, transparent 1px);
+    background-size: 26px 26px;
+    color: var(--color-paper);
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-lime);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-lime);
+    outline-offset: 3px;
+  }
+
+  /* On the lime footer a lime ring would be invisible */
+  .on-lime :focus-visible {
+    outline-color: var(--color-ink);
+  }
+
+  /* Leave room for the sticky nav when jumping to #anchors */
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+}
